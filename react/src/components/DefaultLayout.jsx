@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import axiosClient from '../axios-client.js';
 
 export default function DefaultLayout() {
-   const { user, token , setUser, setToken} = useStateContext();
+   const { user, token, notification, setUser, setToken } = useStateContext();
 
    if (!token) {
       return <Navigate to="/login" />;
@@ -13,16 +13,16 @@ export default function DefaultLayout() {
    const onLogout = (event) => {
       event.preventDefault();
       axiosClient.post('/logout').then(() => {
-         setUser({})
-         setToken(null)
-      })
-   }
+         setUser({});
+         setToken(null);
+      });
+   };
 
    // eslint-disable-next-line react-hooks/rules-of-hooks
    useEffect(() => {
-      axiosClient.get('/user').then(({data}) => {
-         setUser(data)
-      })
+      axiosClient.get('/user').then(({ data }) => {
+         setUser(data);
+      });
    }, []);
 
    return (
@@ -33,17 +33,23 @@ export default function DefaultLayout() {
          </aside>
 
          <div className="content">
-         <header>
-            <div>Header</div>
-            <div>
-               {user.name}
-               <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
-            </div>
-         </header>
-         <main>
-            <Outlet />
-         </main>
+            <header>
+               <div>Header</div>
+               <div>
+                  {user.name}
+                  <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
+               </div>
+            </header>
+            <main>
+               <Outlet />
+            </main>
          </div>
+
+         {notification &&
+            <div className="notification">
+               {notification}
+            </div>
+         }
       </div>
    );
 }
