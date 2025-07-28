@@ -32,8 +32,9 @@ export default function DefaultLayout() {
             <Link to="/users">Users</Link>
          </aside>
 
-         <div className="content"></div>
+         <div className="content">
          <header>
+            <div>Header</div>
             <div>
                {user.name}
                <a href="#" onClick={onLogout} className="btn-logout">Logout</a>
@@ -42,6 +43,7 @@ export default function DefaultLayout() {
          <main>
             <Outlet />
          </main>
+         </div>
       </div>
    );
 }
